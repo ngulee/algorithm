@@ -13,61 +13,37 @@ var polynomial2 = [
   [23, 12]
 ];
 
-function polynomialPlus(polynomial1, polynomial2) {
+
+function polynomialPlus(polynomial1, polynomial2){
   const result = [];
 
-  const len1 = polynomial1.length;
-  const len2 = polynomial2.length;
-
-  const minPolynomial = len1 < len2 ? polynomial1 : polynomial2;
-  const maxPolynomial = len1 < len2 ? polynomial2 : polynomial1;
-
-  const minLen = minPolynomial.length;
-  const maxLen = maxPolynomial.length;
-
-  let minIdx = 0;
-  let maxIdx = 0;
-
-  while(minIdx < minLen) {
-    
-    if(minIdx <= maxIdx) {
-      console.log('maxIdx:', minIdx, maxIdx)
-      const [minConstTerm, minOrderTerm] = minPolynomial[minIdx];
-      
-      const [maxConstTerm, maxOrderTerm] = maxPolynomial[maxIdx];
-
-      if(minOrderTerm < maxOrderTerm) {
-        result.push([
-          minConstTerm,
-          minOrderTerm,
-        ])
-        minIdx++;
-      } else if(minOrderTerm === maxOrderTerm) {
-        result.push([
-          minConstTerm + maxConstTerm,
-          minOrderTerm,
-        ])
-        minIdx++;
-        maxIdx++;
-      } else {
-        result.push([
-          maxConstTerm,
-          maxOrderTerm,
-        ])
-        maxIdx++;
-      }
+  while(polynomial1.length > 0 && polynomial2.length > 0) {
+    const first1 = polynomial1[0][1];
+    const first2 = polynomial2[0][1];
+    if(first1 < first2) {
+      result.push(polynomial1.shift())
+    } else if(first1 === first2) {
+      result.push([
+        polynomial1[0][0] + polynomial2[0][0],
+        polynomial1[0][1] + polynomial2[0][1],
+      ])
+      polynomial1.shift();
+      polynomial2.shift();
     } else {
-      result.push(maxPolynomial[maxIdx])
-      maxIdx++;
+      result.push(polynomial2.shift())
     }
   }
 
-  while(maxIdx < maxLen) {
-    result.push(maxPolynomial[maxIdx])
-    maxIdx++;
+  while(polynomial1.length > 0) {
+    result.push(polynomial1.shift())
+  }
+  while(polynomial2.length > 0) {
+    result.push(polynomial2.shift())
   }
 
   return result;
+
 }
+
 
 console.log(polynomialPlus(polynomial1, polynomial2))
