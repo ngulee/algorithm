@@ -40,6 +40,40 @@ class LinkedList {
 
   }
 
+  get(targetIdx) {
+
+    if(targetIdx < 0 || targetIdx > this.length - 1) {
+      return new Error(`链表中不存在与${targetIdx}对应的节点`);
+    }
+
+    let idx = 0;
+    let current = this.head.next;
+
+    while(idx < targetIdx) {
+      current = current.next;
+      idx++;
+    }
+
+    return current.data;
+  }
+
+  set(data, targetIdx) {
+    if(targetIdx < 0 || targetIdx > this.length - 1) {
+      return new Error(`链表中不存在与${targetIdx}对应的节点`);
+    }
+
+    let current = this.head.next;
+
+    while(targetIdx > 0) {
+      current = current.next;
+      targetIdx--;
+    }
+
+    current.data = data;
+
+    return this;
+  }
+
   size() {
     return this.length;
   }
@@ -83,6 +117,8 @@ linkedL.append(1)
 linkedL.append(2).append(3).append(4);
 
 console.log('linkedL:', linkedL)
-linkedL.clear();
-console.log('linkedL:', linkedL)
+console.log('get:', linkedL.get(3));
+console.log('get:', linkedL.set(30, 4));
+// linkedL.clear();
+// console.log('linkedL:', linkedL)
 // console.log('linkedL:', linkedL.toString())
