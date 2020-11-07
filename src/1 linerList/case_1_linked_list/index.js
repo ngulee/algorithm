@@ -74,6 +74,21 @@ class LinkedList {
     return this;
   }
 
+  search(e, isReturnPosition = false) {
+    let idx =0;
+    let current = this.head.next;
+
+    while(current && current.data !== e) {
+      current = current.next;
+      idx++;
+    }
+    if(!current) {
+      return new Error(`链表中不存在与${e}匹配的元素`)
+    }
+
+    return isReturnPosition ? idx : current;
+  }
+
   size() {
     return this.length;
   }
@@ -116,9 +131,11 @@ const linkedL = new LinkedList();
 linkedL.append(1)
 linkedL.append(2).append(3).append(4);
 
-console.log('linkedL:', linkedL)
-console.log('get:', linkedL.get(3));
-console.log('get:', linkedL.set(30, 4));
+// console.log('linkedL:', linkedL)
+// console.log('get:', linkedL.get(3));
+// console.log('get:', linkedL.set(30, 4));
 // linkedL.clear();
 // console.log('linkedL:', linkedL)
 // console.log('linkedL:', linkedL.toString())
+
+console.log('search:', linkedL.search(20, true))
