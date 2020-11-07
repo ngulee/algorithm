@@ -25,6 +25,59 @@ class LinkedList {
     return this;
   }
 
+  insert(data, position) {
+    if(position < 0 || position > this.length) {
+      return new Error(`链表中不存在与${position}对应的节点`);
+    }
+
+    let idx = 0;
+    let previous = this.head;
+    let current = previous.next;
+
+    const newNode = new LNode(data)
+
+    while(idx < position) {
+
+      previous = current;
+      current = current.next;
+
+      idx++;
+    }
+
+    previous.next = newNode;
+    newNode.next = current;
+
+    this.length++;
+
+    return this;
+  }
+
+  insert1(data, position) {
+    if(position < 0 || position > this.length) {
+      return new Error(`链表中不存在与${position}对应的节点`);
+    }
+
+    let previous = null;
+    let next = null;
+
+    if(position === 0) {
+      previous = this.head;
+    } else {
+      previous = this.get(position - 1);
+    }
+    next = previous.next;
+
+    const newNode = new LNode(data);
+    newNode.next = next;
+
+    previous.next = newNode;
+
+    this.length++;
+
+    return this;
+
+  }
+
   delete(idx) {
     let currentNode = this.head;
     let index = 0;
@@ -54,7 +107,7 @@ class LinkedList {
       idx++;
     }
 
-    return current.data;
+    return current;
   }
 
   set(data, targetIdx) {
@@ -83,7 +136,7 @@ class LinkedList {
       idx++;
     }
     if(!current) {
-      return new Error(`链表中不存在与${e}匹配的元素`)
+      idx = -1;
     }
 
     return isReturnPosition ? idx : current;
@@ -138,4 +191,5 @@ linkedL.append(2).append(3).append(4);
 // console.log('linkedL:', linkedL)
 // console.log('linkedL:', linkedL.toString())
 
-console.log('search:', linkedL.search(20, true))
+// console.log('search:', linkedL.search(4))
+console.log('insert:', linkedL.insert1(8, 4))
