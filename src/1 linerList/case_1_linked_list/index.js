@@ -25,6 +25,18 @@ class LinkedList {
     return this;
   }
 
+  appendAtHead(data) {
+    const newNode = new LNode(data);
+    const firstNode = this.head.next;
+
+    newNode.next = firstNode;
+
+    this.head.next = newNode;
+    this.length++;
+
+    return this;
+  }
+
   insert(data, position) {
     if(position < 0 || position > this.length) {
       return new Error(`链表中不存在与${position}对应的节点`);
@@ -78,19 +90,53 @@ class LinkedList {
 
   }
 
-  delete(idx) {
-    let currentNode = this.head;
-    let index = 0;
+  delete(targetIdx) {
+    if(targetIdx < 0 || targetIdx > this.length - 1) {
+      return new Error(`链表中不存在与${targetIdx}对应的节点`);
+    }
 
-    while(index < idx && currentNode) {
+    let index = 0;
+    let previous = this.head;
+    let currentNode = previous.next;
+
+    while(index < targetIdx) {
+      previous = currentNode;
       currentNode = currentNode.next;
       index++;
     }
 
-    if(currentNode) {
-      
+    previous.next = currentNode.next;
+
+    currentNode = null;
+
+
+    this.length--;
+
+    return this;
+  }
+
+  delete1(targetIdx) {
+    if(targetIdx < 0 || targetIdx > this.length - 1) {
+      return new Error(`链表中不存在与${targetIdx}对应的节点`);
     }
 
+    let previousTargetNode = null;
+
+    if(targetIdx === 0) {
+      previousTargetNode = this.head;
+    } else {
+      previousTargetNode = this.get(targetIdx - 1);
+    }
+
+    const currentTargetNode = previousTargetNode.next;
+    const nextTargetNode = currentTargetNode.next;
+
+    previousTargetNode.next = nextTargetNode;
+    currentTargetNode = null;
+
+    this.length--;
+
+    return this;
   }
 
   get(targetIdx) {
@@ -179,17 +225,51 @@ class LinkedList {
 
 }
 
+function mergeSortedLinkedList(sortedListA, sortedListB) {
+  if(!sortedListB) return sortedListA;
+
+  
+  let firstA = sortedListA.head.next;
+  let firstB = sortedListB.head.next;
+
+  let mergedList = sortedListA;
+  let mergedLastNode = mergedList.head;
+  mergedList.next = mergedLastNode;
+
+  while(firstA && firstB) {
+    if(firstA.data <= firstB.data) {
+      mergedLastNode.next = firstA;
+      firstA = firstA.next;
+      mergedLastNode = mergedLastNode.next;
+    } else {
+      mergedLastNode.next = firstB;
+      firstB = firstB.next;
+      mergedLastNode = mergedLastNode.next;
+    }
+  }
+
+  if(firstA) {
+    mergedLastNode.next = firstA
+    firstA = firstA.next;
+    mergedLastNode = mergedLastNode.next;
+  }
+
+  if(firstB) {
+    mergedLastNode.next = firstB;
+    firstB = firstB.next;
+    mergedLastNode = mergedLastNode.next;
+  }
+
+  return mergedList;
+}
+
 const linkedL = new LinkedList();
+const linkedLA = new LinkedList();
 
-linkedL.append(1)
-linkedL.append(2).append(3).append(4);
+linkedL.append(1).append(3).append(5).append(7).append(9);
+linkedLA.append(2).append(4).append(6).append(8);
 
-// console.log('linkedL:', linkedL)
-// console.log('get:', linkedL.get(3));
-// console.log('get:', linkedL.set(30, 4));
-// linkedL.clear();
-// console.log('linkedL:', linkedL)
-// console.log('linkedL:', linkedL.toString())
+console.log('linkedL:', linkedL)
+console.log('linkedLA:', linkedLA)
 
-// console.log('search:', linkedL.search(4))
-console.log('insert:', linkedL.insert1(8, 4))
+console.log('mergeSortedLinkedList:', mergeSortedLinkedList(linkedL, linkedLA))
