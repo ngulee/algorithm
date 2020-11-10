@@ -248,17 +248,12 @@ function mergeSortedLinkedList(sortedListA, sortedListB) {
     }
   }
 
-  if(firstA) {
-    mergedLastNode.next = firstA
-    firstA = firstA.next;
-    mergedLastNode = mergedLastNode.next;
-  }
+  mergedLastNode.next = firstA ? firstA : firstB;
 
-  if(firstB) {
-    mergedLastNode.next = firstB;
-    firstB = firstB.next;
-    mergedLastNode = mergedLastNode.next;
-  }
+  firstA = null;
+  firstB = null;
+
+  mergedList.length = sortedListA.length + sortedListB.length;
 
   return mergedList;
 }
