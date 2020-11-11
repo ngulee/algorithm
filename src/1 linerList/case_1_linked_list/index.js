@@ -258,13 +258,90 @@ function mergeSortedLinkedList(sortedListA, sortedListB) {
   return mergedList;
 }
 
-const linkedL = new LinkedList();
-const linkedLA = new LinkedList();
 
-linkedL.append(1).append(3).append(5).append(7).append(9);
-linkedLA.append(2).append(4).append(6).append(8);
+// const linkedL = new LinkedList();
+// const linkedLA = new LinkedList();
 
-console.log('linkedL:', linkedL)
-console.log('linkedLA:', linkedLA)
+// linkedL.append(1).append(3).append(5).append(7).append(9);
+// linkedLA.append(2).append(4).append(6).append(8);
 
-console.log('mergeSortedLinkedList:', mergeSortedLinkedList(linkedL, linkedLA))
+// console.log('linkedL:', linkedL)
+// console.log('linkedLA:', linkedLA)
+
+// console.log('mergeSortedLinkedList:', mergeSortedLinkedList(linkedL, linkedLA))
+
+function mergePolynomailLinkedList(polynomailA, polynomailB) {
+  let polynoamilC = polynomailA;
+  let pa = polynomailA.head.next;
+  let pb = polynomailB.head.next;
+
+  let currentNode = polynomailA.head;
+
+  polynoamilC.head = currentNode;
+
+  while (pa && pb) {
+    if(pa.data[1] < pb.data[1]) {
+      currentNode.next = pa;
+      currentNode = currentNode.next;
+      pa = pa.next;
+    } else if (pa.data[1] === pb.data[1]) {
+      const pulsValue = pa.data[0] + pb.data[0];
+
+      if (pulsValue !== 0) {
+        pa.data[0] = pulsValue;
+        currentNode.next = pa;
+        currentNode = currentNode.next;
+
+        pa = pa.next;
+        pb = pb.next;
+
+      } else {
+        pa = pa.next;
+        pb = pb.next;
+
+        if (pa.data[1] <= pb.data[1]) {
+          currentNode.next = pa;
+          pa = pa.next;
+        } else {
+          currentNode.next = pb;
+          pb = pb.next;
+        }
+
+        currentNode = currentNode.next;
+
+      }
+      
+    } else {
+      currentNode.next = pb;
+      currentNode = currentNode.next;
+      pb = pb.next;
+    }
+  }
+
+  if(pa || pb) {
+    currentNode.next = pa || pb;
+  }
+
+  let length = 0;
+  let pcNode = polynoamilC.head;
+
+  while (pcNode.next) {
+    length++;
+    pcNode = pcNode.next;
+  }
+
+  polynoamilC.length = length;
+
+  return polynoamilC;
+}
+
+const polynomailA = new LinkedList();
+const polynomailB = new LinkedList();
+
+polynomailA.append([7, 0]).append([3, 1]).append([7, 3]).append([6, 5]).append([4, 7]).append([3, 9]);
+polynomailB.append([5, 0]).append([2, 2]).append([-6, 5]).append([2, 6]).append([3, 7]);
+
+console.log('polynomailA:', polynomailA);
+console.log('polynomailB:', polynomailB);
+
+console.log('mergePolynomailLinkedList:', mergePolynomailLinkedList(polynomailA, polynomailB))
