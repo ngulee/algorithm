@@ -322,6 +322,10 @@ function mergePolynomailLinkedList(polynomailA, polynomailB) {
     currentNode.next = pa || pb;
   }
 
+  pa = null;
+  pb = null;
+  currentNode = null;
+
   let length = 0;
   let pcNode = polynoamilC.head;
 
