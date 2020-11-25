@@ -61,6 +61,19 @@ function PreOrderTraverseByCirculation(tree) {
   }
 }
 
+function preorderTraversal(tree) {
+  if(!tree) return;
+
+  const stack = [tree];
+
+  while(stack.length > 0) {
+    const top = stack.pop();
+    console.log('top:', top.data);
+    top.rightChild && stack.push(top.rightChild);
+    top.leftChild && stack.push(top.leftChild);
+  }
+}
+
 
 function InOrderTraverseByCirculation(tree) {
   const cacheStack = [];
@@ -82,25 +95,15 @@ function InOrderTraverseByCirculation(tree) {
 }
 
 function PostOrderTraverseByCirculation(tree) {
-  var result = [];
+  const res = [], stack = [];
+  let p = tree;
+  while(p || stack.length > 0) {
+    res.unshift(p.data);
+    p.rightChild && stack.push(p.rightChild);
+    p.leftChild && stack.push(p.leftChild);
 
-  var cacheStack = [tree];
-  while(cacheStack.length !== 0) {
-    var top = cacheStack.pop();
-
-    result.unshift(top.data);
-
-    if(top.leftChild) {
-      cacheStack.push(top.leftChild);
-    }
-
-    if(top.rightChild) {
-      cacheStack.push(top.rightChild)
-    }
+    p = stack.pop();
   }
-  console.log('result:', result)
-
-  return result;
 }
 
 function levelTraverseByQueue(bTree) {
@@ -122,6 +125,7 @@ function levelTraverseByQueue(bTree) {
 
 console.log('InOrderTraverseByCirculation: ABDC')
 PreOrderTraverseByCirculation(bTree);
+preorderTraversal(bTree);
 
 console.log('InOrderTraverseByCirculation: BDAC')
 InOrderTraverseByCirculation(bTree);
