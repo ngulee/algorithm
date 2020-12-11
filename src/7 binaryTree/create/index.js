@@ -8,16 +8,16 @@ class BTreeNode {
 
 var DLRString = ('ABC##DE#G##F###').split('');
 
-function createBinarTree(DLRString) {
+function createBinarTree(DLRArr) {
   let root = null;
 
-  if (DLRString.length > 0) {
-    let data = DLRString.shift();
+  if (DLRArr.length > 0) {
+    let data = DLRArr.shift();
     if (data !== '#') {
       root = new BTreeNode(data);
 
-      root.leftChild = createBinarTree(DLRString);
-      root.rightChild = createBinarTree(DLRString);
+      root.leftChild = createBinarTree(DLRArr);
+      root.rightChild = createBinarTree(DLRArr);
     }
   }
 
