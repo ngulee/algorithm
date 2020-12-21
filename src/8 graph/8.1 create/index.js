@@ -45,15 +45,15 @@ function getVerticeLocation(G, verx) {
 }
 
 
-const vertices = ['a', 'b', 'c', 'd', 'e'];
+const vertices = ['v1', 'v2', 'v3', 'v4', 'v5'];
 
 const adjvex = [
-  ['a', 'b'],
-  ['a', 'd'],
-  ['b', 'c'],
-  ['b', 'e'],
-  ['d', 'c'],
-  ['e', 'c'],
+  ['v1', 'v2'],
+  ['v1', 'v4'],
+  ['v2', 'v3'],
+  ['v2', 'v5'],
+  ['v4', 'v3'],
+  ['v5', 'v3'],
 ];
 const G = new Graph(5, 6, vertices);
 
@@ -70,4 +70,33 @@ function createUDG(G, adjvex) {
   return G;
 }
 
-console.log('createUDG:', createUDG(G, adjvex))
+const graph = createUDG(G, adjvex);
+
+console.log('createUDG:', graph)
+
+function BFS(Graph) {
+  const visited = {};
+  let index = 0;
+  const stack = [
+    Graph.vertices[index]
+  ];
+  visited[index] = true;
+
+  while (stack.length > 0) {
+    const firstNode = stack.shift();
+    console.log('firstNode:', firstNode.data);
+
+    let nextNode = firstNode.firstArc || firstNode.nextArc;
+
+    while (nextNode) {
+      index = nextNode.adjvex;
+      if (!visited[index]) {
+        stack.push(Graph.vertices[index]);
+        visited[index] = true;
+      }
+      nextNode = nextNode.firstArc || nextNode.nextArc;
+    }
+  }
+}
+
+BFS(graph);
