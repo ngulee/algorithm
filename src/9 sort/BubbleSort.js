@@ -60,6 +60,28 @@ function bubbleSort2(arr) {
   return arr;
 }
 
-console.log('bubbleSort:', bubbleSort(array));
-console.log('bubbleSort1:', bubbleSort1(array));
-console.log('bubbleSort2:', bubbleSort2(array));
+
+function bubbleSort3(arr) {
+  arr = [].concat(arr);
+  var i = arr.length;
+  var flag = 1;
+  while(i > 0) {
+    for (let j = 0; j < i && flag === 1; j++) {
+      var a = arr[j];
+      var b = arr[j+1];
+      flag = 0;
+      if(a > b) {
+        arr[j] = b;
+        arr[j+1] = a;
+        flag = 1;
+      }
+    }
+    i--;
+  }
+  return arr;
+}
+
+// console.log('bubbleSort:', bubbleSort(array));
+// console.log('bubbleSort1:', bubbleSort1(array));
+// console.log('bubbleSort2:', bubbleSort2(array));
+console.log('bubbleSort3:', bubbleSort3(array));

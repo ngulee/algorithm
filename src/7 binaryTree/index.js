@@ -16,6 +16,7 @@ var bTree = {
   },
 }
 
+
 // function PreOrderTraverseByRecursive(tree) {
 //   if(tree === null) return;
 //   console.log('Pre:', tree.data);
@@ -95,15 +96,10 @@ function InOrderTraverseByCirculation(tree) {
 }
 
 function PostOrderTraverseByCirculation(tree) {
-  const res = [], stack = [];
-  let p = tree;
-  while(p || stack.length > 0) {
-    res.unshift(p.data);
-    p.rightChild && stack.push(p.rightChild);
-    p.leftChild && stack.push(p.leftChild);
-
-    p = stack.pop();
-  }
+  if(!tree) return;
+  PostOrderTraverseByCirculation(tree.leftChild);
+  PostOrderTraverseByCirculation(tree.rightChild);
+  console.log('node:', tree.data)
 }
 
 function levelTraverseByQueue(bTree) {
@@ -123,6 +119,45 @@ function levelTraverseByQueue(bTree) {
   }
 }
 
+function deepCopy(source, cacheMap = new Map()) {
+  if(typeof source !== 'object') {
+    if(source instanceof Function) {
+      const fn = cacheMap.get(source);
+      if (fn){
+        return fn;
+      } else {
+        cacheMap.set(source, source);
+      }
+    }
+    return source;
+  }
+
+  if (cacheMap.get(source)) return cacheMap.get(source);
+
+  const copy = Array.isArray(source) ? [] : {};
+  cacheMap.set(source, copy);
+
+  Object.keys(source).forEach((key) => {
+    copy[key] = deepCopy(source[key], cacheMap);
+  })
+
+  return copy;
+}
+
+
+var objTest = {
+  a: {
+    name: {
+    },
+    functions: {
+      a: function() {},
+    }
+  }
+}
+
+objTest.a.name.c = objTest.a;
+objTest.a.functions.b = objTest.a.functions.a;
+
 console.log('InOrderTraverseByCirculation: ABDC')
 PreOrderTraverseByCirculation(bTree);
 preorderTraversal(bTree);
@@ -135,3 +170,8 @@ PostOrderTraverseByCirculation(bTree);
 
 // console.log('levelTraverse:', )
 levelTraverseByQueue(bTree);
+console.log('objTest:', objTest)
+
+const deepCopiedObj = deepCopy(objTest);
+console.log('deepCopiedObj:', deepCopiedObj)
+console.log('deepCopiedObj:', deepCopiedObj.a.functions.a === deepCopiedObj.a.functions.b)

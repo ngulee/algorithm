@@ -69,8 +69,7 @@ function copyBiTreeByCirculation(sTree) {
         parent.rightChild = newNode;
       }
     } else {
-      parent = newNode;
-      cTree = parent;
+      cTree = newNode;
     }
 
     if (node.rightChild) {

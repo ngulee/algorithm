@@ -1,4 +1,4 @@
-const array = [9, 8, 7, 6]
+const array = [1, 2, 3, 9, 8, 7, 6]
 const array1 = [,9, 8, 7, 6];
 const array2 = [,9, 8, 7, 6];
 
@@ -10,7 +10,7 @@ function insertSort(arr) {
   const len = arr.length;
   for(let i = 1; i < len; i++) {
     // 如果当前元素比已经排序的最后的一个元素大，则直接跳过
-    if (arr[i] > arr[i - 1]) return;
+    if (arr[i] > arr[i - 1]) continue;
 
     const current = arr[i];
     let j;
@@ -29,7 +29,7 @@ function insertSort1(arr) {
   const len = arr.length;
   for(let i = 2; i < len; i++) {
     // 如果当前元素比已经排序的最后的一个元素大，则直接跳过
-    if(arr[i] > arr[i-1]) return;
+    if (arr[i] > arr[i - 1]) continue;
 
     const current = arr[i];
     arr[0] = current;
@@ -47,7 +47,7 @@ function BInsertSort(source) {
   const len = arr.length;
   for(let i = 2; i < len; i++) {
     // 如果当前元素比已经排序的最后的一个元素大，则直接跳过
-    if (arr[i] > arr[i - 1]) return;
+    if (arr[i] > arr[i - 1]) continue;
     arr[0] = arr[i];
     let j;
     let low = 1;
@@ -70,5 +70,5 @@ function BInsertSort(source) {
 }
 
 console.log('insertSort:', insertSort(array))
-console.log('insertSort:', insertSort1(array1))
-console.log('insertSort:', BInsertSort(array2))
+console.log('insertSort1:', insertSort1(array1))
+console.log('BInsertSort:', BInsertSort(array2))
